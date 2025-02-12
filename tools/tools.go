@@ -1,5 +1,5 @@
-// Copyright (c) HashiCorp, Inc.
-// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) C0RR1T
+// SPDX-License-Identifier: MIT
 
 //go:build generate
 

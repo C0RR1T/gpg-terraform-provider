@@ -29,7 +29,7 @@ func (k *keyPairResource) Metadata(ctx context.Context, req resource.MetadataReq
 
 func (k *keyPairResource) Schema(ctx context.Context, req resource.SchemaRequest, res *resource.SchemaResponse) {
 	res.Schema = schema.Schema{
-
+		Description: "A GPG Private-Public key pair",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
