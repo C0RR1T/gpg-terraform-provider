@@ -1,11 +1,11 @@
 ---
-page_title: "Provider: PGP"
+page_title: "Provider: GPG"
 description: |-
-  The `pgp` provides a way to create a GPG key in Terraform.
+  The GPG provider provides a resource to generate an GPG private/public key pair.
 ---
 
-# PGP Provider
+# GPG Provider
+The GPG provider provides a resource to generate an GPG private/public key pair.
 
-The `pgp` provides a way to create a GPG key in Terraform.
-
-{{ .SchemaMarkdown | trimspace }}
+Example:
+{{ tffile "examples/resources/gpg_key_pair/resource.tf" }}

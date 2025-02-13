@@ -1,9 +1,9 @@
-// Copyright (c) HashiCorp, Inc.
-
 package provider
 
 import (
 	"context"
+	"gpg-terraform-provider/internal/planmodifiers"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"time"
 
 	"github.com/ProtonMail/gopenpgp/v3/constants"
@@ -30,6 +30,27 @@ func (k *keyPairResource) Metadata(ctx context.Context, req resource.MetadataReq
 func (k *keyPairResource) Schema(ctx context.Context, req resource.SchemaRequest, res *resource.SchemaResponse) {
 	res.Schema = schema.Schema{
 		Description: "A GPG Private-Public key pair",
+		Blocks: map[string]schema.Block{
+			"identity": schema.SingleNestedBlock{
+				Description: "User ID of the key",
+				Attributes: map[string]schema.Attribute{
+					"name": schema.StringAttribute{
+						Required:    true,
+						Description: "Real name",
+						PlanModifiers: []planmodifier.String{
+							planmodifiers.RequiresReplaceOnValueChange(),
+						},
+					},
+					"email": schema.StringAttribute{
+						Required:    true,
+						Description: "Email address",
+						PlanModifiers: []planmodifier.String{
+							planmodifiers.RequiresReplaceOnValueChange(),
+						},
+					},
+				},
+			},
+		},
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
@@ -43,25 +64,16 @@ func (k *keyPairResource) Schema(ctx context.Context, req resource.SchemaRequest
 				Validators: []validator.String{
 					stringvalidator.OneOf("default", "rfc4880", "rfc9580"),
 				},
+				PlanModifiers: []planmodifier.String{
+					planmodifiers.RequiresReplaceOnValueChange(),
+				},
 			},
 			"passphrase": schema.StringAttribute{
 				Sensitive:   true,
 				Description: "Passphrase of the PGP Key",
 				Required:    true,
-			},
-			"identity": schema.SingleNestedAttribute{
-				Description: "User ID of the key",
-				Required:    true,
-
-				Attributes: map[string]schema.Attribute{
-					"name": schema.StringAttribute{
-						Required:    true,
-						Description: "Real name",
-					},
-					"email": schema.StringAttribute{
-						Required:    true,
-						Description: "Email address",
-					},
+				PlanModifiers: []planmodifier.String{
+					planmodifiers.RequiresReplaceOnValueChange(),
 				},
 			},
 			"fingerprint": schema.StringAttribute{
@@ -79,7 +91,10 @@ func (k *keyPairResource) Schema(ctx context.Context, req resource.SchemaRequest
 			},
 			"expires_at": schema.StringAttribute{
 				Optional:    true,
-				Description: "When the key should expire",
+				Description: "When the key should expire (in the RFC3339 format)",
+				PlanModifiers: []planmodifier.String{
+					planmodifiers.RequiresReplaceOnValueChange(),
+				},
 			},
 		},
 	}

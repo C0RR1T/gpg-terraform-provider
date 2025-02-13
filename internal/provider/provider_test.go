@@ -1,14 +1,12 @@
-// Copyright (c) HashiCorp, Inc.
-
 package provider
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
-	"github.com/hashicorp/terraform-plugin-go/tfprotov5"
+	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
 )
 
-func protoV5ProviderFactories() map[string]func() (tfprotov5.ProviderServer, error) {
-	return map[string]func() (tfprotov5.ProviderServer, error){
-		"gpg": providerserver.NewProtocol5WithError(New()),
+func protoV6ProviderFactories() map[string]func() (tfprotov6.ProviderServer, error) {
+	return map[string]func() (tfprotov6.ProviderServer, error){
+		"gpg": providerserver.NewProtocol6WithError(New()),
 	}
 }
