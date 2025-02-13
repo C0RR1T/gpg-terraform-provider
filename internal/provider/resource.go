@@ -2,7 +2,7 @@ package provider
 
 import (
 	"context"
-	"gpg-terraform-provider/internal/planmodifiers"
+	"terraform-provider-gpg/internal/planmodifiers"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"time"
 
@@ -10,6 +10,7 @@ import (
 	"github.com/ProtonMail/gopenpgp/v3/crypto"
 	"github.com/ProtonMail/gopenpgp/v3/profile"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/objectvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
@@ -33,6 +34,9 @@ func (k *keyPairResource) Schema(ctx context.Context, req resource.SchemaRequest
 		Blocks: map[string]schema.Block{
 			"identity": schema.SingleNestedBlock{
 				Description: "User ID of the key",
+				Validators: []validator.Object{
+					objectvalidator.IsRequired(),
+				},
 				Attributes: map[string]schema.Attribute{
 					"name": schema.StringAttribute{
 						Required:    true,

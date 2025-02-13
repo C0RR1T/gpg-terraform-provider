@@ -1,4 +1,4 @@
-module gpg-terraform-provider
+module terraform-provider-gpg
 
 go 1.24.0
 
