@@ -1,9 +1,12 @@
 package provider
 
 import (
+	"github.com/ProtonMail/gopenpgp/v3/crypto"
+	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testCase = `
@@ -29,4 +32,22 @@ func TestAccResource(t *testing.T) {
 			},
 		},
 	})
+}
+
+func checkIsPrivateKey() resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		rs, ok := s.RootModule().Resources["gpg_key_pair.test"]
+		if !ok {
+			return fmt.Errorf("Could not find resource gpg_key_pair.test")
+		}
+
+		key, err := crypto.NewKeyFromArmored(rs.Primary.Attributes["private_key"])
+		if err != nil {
+			return err
+		}
+
+		if !key.IsPrivate() {
+			return fmt.Errorf("Private key is not private key")
+		}
+	}
 }
