@@ -2,15 +2,15 @@ package provider
 
 import (
 	"context"
-	"terraform-provider-gpg/internal/planmodifiers"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"terraform-provider-gpg/internal/planmodifiers"
 	"time"
 
 	"github.com/ProtonMail/gopenpgp/v3/constants"
 	"github.com/ProtonMail/gopenpgp/v3/crypto"
 	"github.com/ProtonMail/gopenpgp/v3/profile"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/objectvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"

@@ -8,8 +8,8 @@ import (
 	"flag"
 	"log"
 
-	"terraform-provider-gpg/internal/provider"
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
+	"terraform-provider-gpg/internal/provider"
 )
 
 func main() {
